@@ -1,34 +1,27 @@
 package main.java;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-
 // Custom Exception
 class InvalidMarksException extends Exception {
     public InvalidMarksException(String message) {
         super(message);
     }
 }
-
 public class StudentMarksManagerFile {
-
     static Map<String, Integer> studentMap = new HashMap<>();
     static final String FILE_NAME = "students.txt";
-
     public static void main(String[] args) {
         loadFromFile();   // Load all data at start
-
         Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.println("\n1. Add Student");
             System.out.println("2. View All Students");
             System.out.println("3. Exit");
             System.out.print("Choose option: ");
-
             int choice;
             try {
                 choice = sc.nextInt();
@@ -59,13 +52,10 @@ public class StudentMarksManagerFile {
         try {
             System.out.print("Enter student name: ");
             String name = sc.nextLine();
-
             System.out.print("Enter marks: ");
             int marks = sc.nextInt();
             sc.nextLine();
-
             validateMarks(marks);
-
             studentMap.put(name, marks);
             saveToFile();
             System.out.println("Student added and saved!");
@@ -77,13 +67,11 @@ public class StudentMarksManagerFile {
             sc.nextLine();
         }
     }
-
     static void validateMarks(int marks) throws InvalidMarksException {
         if (marks < 0 || marks > 100) {
             throw new InvalidMarksException("Marks must be between 0 and 100");
         }
     }
-
     static void showStudents() {
         if (studentMap.isEmpty()) {
             System.out.println("No students found.");
@@ -95,7 +83,6 @@ public class StudentMarksManagerFile {
             System.out.println(entry.getKey() + " → " + entry.getValue());
         }
     }
-
     // Save Map data to file
     static void saveToFile() {
         try (FileWriter fw = new FileWriter(FILE_NAME)) {
@@ -111,7 +98,6 @@ public class StudentMarksManagerFile {
     static void loadFromFile() {
         File file = new File(FILE_NAME);
         if (!file.exists()) return;
-
         try (Scanner fileScanner = new Scanner(file)) {
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
